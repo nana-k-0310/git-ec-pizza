@@ -16,6 +16,8 @@
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
       rel="stylesheet"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/common.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
@@ -27,6 +29,7 @@
     <link rel="stylesheet" th:href="@{/css/order_confirm.css}" />
     <link rel="stylesheet" th:href="@{/css/order_finished.css}" />
     <link rel="stylesheet" th:href="@{/css/responsive.css}" />
+    <script th:src="@{/js/item_detail.js}"></script>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -75,21 +78,23 @@
             <div>
               <label>
                 <input id="size-m" name="size" type="radio"
-                 checked="checked" class="size" />
+                 checked="checked"value="M" class="size" />
                 <span>
                   &nbsp;<span class="price">Ｍ</span
                   >&nbsp;&nbsp;<span
                   th:text="${#numbers.formatInteger(item.priceM, 1, 'COMMA')}"
+                  th:id="sizeMPrice"
                   >1,380</span>円(税抜)</span
                 >
               </label>
               <label>
-                <input id="size-l" name="size" type="radio"
+                <input id="size-l" name="size" type="radio"value="L"
                 class="size" />
                 <span>
                   &nbsp;<span class="price">Ｌ</span
                   >&nbsp;&nbsp;<span
                   th:text="${#numbers.formatInteger(item.priceL, 1, 'COMMA')}"
+                  id="sizeLPrice"
                   >2,380</span>円(税抜)</span
                 >
               </label>
@@ -104,7 +109,7 @@
             
             <span th:each="topping:${item.toppingList}">
               <label class="item-topping">
-                <input type="checkbox" name="toppingList" th:value="${topping.id}" class="checked"/>
+                <input type="checkbox" name="toppingList" th:value="${topping.id}" class="checkbox"/>
                 <span th:text="${topping.name}">ハワイアンソルト</span>
               </label>
             </span>>
@@ -133,12 +138,12 @@
             </div>
           </div>
           <div class="row item-total-price">
-            <span>この商品金額：<span>38,000</span>円(税抜)</span>
+            <span>この商品金額：<span id="totalprice"></span>円(税抜)</span>
           </div>
           <div class="row item-cart-btn">
             <button
               class="btn"
-              type="button"
+              type="submit"
               onclick="location.href='cart_list.html'"
             >
               <i class="material-icons left">add_shopping_cart</i>

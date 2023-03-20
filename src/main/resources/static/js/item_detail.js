@@ -5,12 +5,17 @@ $(function(){
 		calc_price();
 	});
 	
+	$(".checkbox").on("click", function(){
+		calc_price();
+	});
 	
-	
-	
+	$("#pizanum").on("change", function(){
+		calc_price();
+	});
 	
 	//値段の計算をして変更する関数
 	function calc_price(){
+		console.log('ファンクションが反応しています')
 		let size = $(".size:checked").val();
 		let topping_count = $(".checkbox:checked").length;
 		let piza_num = $("#pizanum").val();
@@ -21,35 +26,23 @@ $(function(){
 			topping_price = 200 * topping_count;
 		} else {
 			size_price = $("#sizeLPrice").text();
-			tropping_price = 300 * topping_count;
+			topping_price = 300 * topping_count;
 		}
-		
-		//ここにカンマの記述が入る
 		
 		let removecomma = size_price.replace(/,/g, "");
 		var num = parseInt(removecomma, 10);
-		
-		
+		let price = (num + topping_price) * piza_num;
+		$("#totalprice").text(price.toLocaleString());
 	}
+	
+	//オートコンプリート機能が画面周辺をクリック時にも候補が出てくるようにする
+	$(function(){
+		$(".seartch-form").on("click", function(){
+			const button = document.querySelector("#search")
+			button.focus();
+		});
+		
+	});
+	
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//値段の計算をして変更する関数
-//function calc price(){
-	let size = $(".size:checked").val();
-	let topping_count = $(".checkbox:checked").length;
-	let piza_num = $()
-//}
