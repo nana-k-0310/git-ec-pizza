@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Import Materialize CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <!-- Import Font Wesome -->
+    <link
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/register_admin.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_detail.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_confirm.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_finished.css}" />
+    <link rel="stylesheet" th:href="@{/css/responsive.css}" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ラクラクアロハ</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <div class="header">
+          <div class="header-left">
+            <a th:href="@{/}">
+              <img class="logo" th:src="@{/img/header_logo.png}" />
+            </a>
+          </div>
+
+          <div class="header-right">
+            <a th:href="@{/}">商品一覧</a>
+            <a th:href="@{/register}">会員登録</a>
+            <a th:href="@{/login}" class="login">
+              <i class="fas fa-sign-in-alt"></i>ログイン
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="top-wrapper">
+      <div class="container">
+        <div class="row login-page">
+          <div class="col s12 z-depth-6 card-panel">
+            <div class="error" th:if="${errorMessage}">
+            <p th:text="${errorMessage}">
+            エラーメッセージ
+            </p>
+            </div>
+            <form class="login-form" th:action="@{/login/toLogin}" th:object="${loginLogoutUserForm}" method="post">
+              <div class="row"></div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">mail_outline</i>
+                  <input name="email" class="validate" id="mailAddress" type="email" th:field="*{email}" />
+                  <label
+                    for="mailAddress"
+                    data-error="wrong"s
+                    data-success="right"
+                    >メールアドレス</label
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">lock_outline</i>
+                  <input name="password" id="password" type="password" th:field="*{password}"/>
+                  <label for="password">パスワード</label>
+                </div>
+              </div>
+              <div class="row login-btn">
+                <button
+                  class="btn"
+                  type="submit"
+                >
+                  <span>ログイン</span>
+                </button>
+              </div>
+              <div class="row">
+                <div class="input-field col s6 m6 l6">
+                  <p class="margin medium-small">
+                    <a th:href="@{/register}">ユーザー登録はこちら</a>
+                  </p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end top-wrapper -->
+    <footer>
+      <div class="container">
+        <img th:src="@{/img/header_logo.png}" />
+        <p>アロハな気分をあなたにお届け！</p>
+      </div>
+    </footer>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </body>
+</html>
