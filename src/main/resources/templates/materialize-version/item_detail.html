@@ -33,7 +33,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ラクラクアロハ</title>
+    <title>ラクラクピザ</title>
   </head>
   <body>
     <header>
@@ -60,6 +60,9 @@
         </div>
       </div>
     </header>
+    
+    <form th:action="@{/shopping/insertCart}"
+    th:object="${shoppingCartForm}" method="post">
     <div class="top-wrapper">
       <div class="container">
         <h1 class="page-title" th:text="${item.name}">Hawaiianパラダイス</h1>
@@ -109,7 +112,7 @@
             
             <span th:each="topping:${item.toppingList}">
               <label class="item-topping">
-                <input type="checkbox" name="toppingList" th:value="${topping.id}" class="checkbox"/>
+                <input type="checkbox" name="toppingIdList" th:value="${topping.id}" class="checkbox"/>
                 <span th:text="${topping.name}">ハワイアンソルト</span>
               </label>
             </span>>
@@ -144,7 +147,6 @@
             <button
               class="btn"
               type="submit"
-              onclick="location.href='cart_list.html'"
             >
               <i class="material-icons left">add_shopping_cart</i>
               <span>カートに入れる</span>
@@ -152,13 +154,14 @@
           </div>
         </div>
       </div>
+      </form>
       <!-- end container -->
-    </div>
+   
     <!-- end top-wrapper -->
     <footer>
       <div class="container">
         <img th:src="@{/img/header_logo.png}" />
-        <p>アロハな気分をあなたにお届け！</p>
+        <p>本格ピザをあなたにお届け！</p>
       </div>
     </footer>
     <!-- Compiled and minified JavaScript -->

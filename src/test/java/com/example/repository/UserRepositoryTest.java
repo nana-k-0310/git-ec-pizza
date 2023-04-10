@@ -14,7 +14,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
-import com.example.domain.User;
+import com.example.domain.UserInfo;
 
 @SpringBootTest
 class UserRepositoryTest {
@@ -35,7 +35,7 @@ class UserRepositoryTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		User user = new User();
+		UserInfo user = new UserInfo();
 		user.setName("テスト名");
 		user.setEmail("test@gmail.com");
 		user.setPassword("testtest");
@@ -53,7 +53,7 @@ class UserRepositoryTest {
 	//** メールアドレスからユーザー情報を取得する./
 	@Test
 	void ユーザー情報メール登録テスト() throws Exception {
-		User user1 = userRepository.findByEmail("test@gmail.com");
+		UserInfo user1 = userRepository.findByEmail("test@gmail.com");
 		assertEquals("テスト名", user1.getName(), "名前が登録されていません");
 		assertEquals("test@gmail.com", user1.getEmail(), "メールアドレスが登録されていません");
 		assertEquals("testtest", user1.getPassword(), "パスワードが登録されていません");
@@ -65,7 +65,7 @@ class UserRepositoryTest {
 	//** メールアドレスとパスワードからユーザー情報を取得する./
 	@Test
 	void ユーザー情報メールパスワード登録テスト() throws Exception {
-		User user2 = userRepository.fincByPasswordAndEmail("testtest", "test@gmail.com");
+		UserInfo user2 = userRepository.fincByPasswordAndEmail("testtest", "test@gmail.com");
 		assertEquals("テスト名", user2.getName(), "名前が登録されていません");
 		assertEquals("test@gmail.com", user2.getEmail(), "メールアドレスが登録されていません");
 		assertEquals("testtest", user2.getPassword(), "パスワードが登録されていません");

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.domain.User;
+import com.example.domain.UserInfo;
 import com.example.form.LoginLogoutUserForm;
 
 @SpringBootTest
@@ -43,7 +43,7 @@ class LoginLogoutUserServiceTest {
 		LoginLogoutUserForm form = new LoginLogoutUserForm();
 		form.setPassword("aaaaaaaa");
 		form.setEmail("abc@gmail.com");
-		User user = service.login(form);
+		UserInfo user = service.login(form);
 		assertEquals(2, user.getId(), "IDが登録されていません");
 		assertEquals("名字名前", user.getName(), "名前が登録されていません");
 		assertEquals("abc@gmail.com", user.getEmail(), "メールアドレスが登録されていません");

@@ -27,3 +27,18 @@
 .order-confirm-btn {
   text-align: center;
 }
+
+.menyureturn-display{
+	text-align: center;
+}
+
+.alldeleted-btn{
+  display: inline-block; /*ボタンはa要素(インライン要素)のため widhやheightは指定できない。またmarginやpaddingは横のみしか指定できない。今回padding指定したいためにインラインブロック要素に変更する */
+  padding: 8px 24px; /* 上記でインラインブロック要素に下ので上下のpaddingが設定できる */
+  color: white;
+  opacity: 0.8; /* 透明度の設定 */
+  border-radius: 4px; /* ボタンの角を丸くする */
+  text-align: center; /* ボタン名を中央揃えに */
+  background-color: #26A69A;
+  border: none;
+}

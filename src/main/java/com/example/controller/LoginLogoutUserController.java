@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.domain.User;
+import com.example.domain.UserInfo;
 import com.example.form.LoginLogoutUserForm;
 import com.example.service.LoginLogoutUserService;
 
@@ -40,7 +40,6 @@ public class LoginLogoutUserController {
 	 */
 	@GetMapping("")
 	public String login(LoginLogoutUserForm form) {
-		System.out.println("こんにちは");
 		return "materialize-version/login";
 	}
 	
@@ -55,17 +54,23 @@ public class LoginLogoutUserController {
 	@PostMapping("/toLogin")
 	public String toLogin(LoginLogoutUserForm form, Model model) {
 
-		User user = service.login(form);
+		UserInfo user = service.login(form);
 		
 		if(user == null) {
 			model.addAttribute("errorMessage", "メールまたはパスワードが間違っています");
 			return login(form);
 		}
 		
-		session.setAttribute("userName", user.getName());
+		session.setAttribute("user", user);
+		
+		//shoppingCartの表示するためSessionで保持
+	//			session.setAttribute("userId", user.getId());
+
 			return "redirect:/";
-		}
+		
 	}
+	
+}
 	
 	
 

@@ -35,7 +35,6 @@ public class ShowItemDetailService {
 	 */
 	public Item showItemDetail(Integer id) {
 		Item item = itemRepository.load(id);
-		System.out.println(item);
 		item.setToppingList(toppingRepository.findAll());
 		return item;
 	}
