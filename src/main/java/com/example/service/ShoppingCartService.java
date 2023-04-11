@@ -43,37 +43,60 @@ public class ShoppingCartService {
 	 */
 	public void insertCart(ShoppingCartForm form, Integer userId) {
 		Order order = orderRepository.findByUserIdAndStatus(userId, 0);
+		
 		Order orderObject = new Order();
-		//オーダーテーブルにユーザー情報がない場合注文テーブルにインサート
-		if(order == null) {
+		
+		//オーダーテーブルにオーダー（カート）がない場合、注文テーブルにインサート
+		if(Objects.isNull(order)) {
 			orderObject.setUserId(userId);
 			orderObject.setStatus(0);
 			orderObject.setTotalPrice(0);
-			//↑なぜtotalが0？
-			orderRepository.insert(orderObject);
-		}
-		//注文商品へインサート
+			System.out.println("orderObjectは" +orderObject + "です");
+			
+			Order insertOrder = orderRepository.insert(orderObject);
+			
+			OrderItem orderItem = new OrderItem();
+			
+			BeanUtils.copyProperties(form, orderItem);
+			
+			orderItem.setOrderId(insertOrder.getId());
+			
+			OrderItem orderItemInfo = orderItemRepository.insert(orderItem);
+			
+			//注文トッピングインサート、nullの時はインサートなし
+			OrderTopping orderTopping = new OrderTopping();
+			
+			//ToppingIdListはショッピングカートFormにある
+			if(form.getToppingIdList() != null) {
+				for(Integer t : form.getToppingIdList()) {
+					orderTopping.setToppingId(t);
+					orderTopping.setOrderItemId(orderItemInfo.getId());
+					orderToppingRepository.insert(orderTopping);
+				}
+			}
+			
+		} else {
+	
+		//オーダーテーブルにオーダー（カート）がある場合、そのオーダーIDを注文商品へインサート
 		OrderItem orderItem = new OrderItem();
 		//ショッピングカートのフォームをコピーしorderItemに移す（Formで入力したものがorderItemに入る）
 		BeanUtils.copyProperties(form, orderItem);
 		
-		if(order != null) {
-			orderItem.setOrderId(order.getId());
-		} else {
-			orderItem.setOrderId(orderObject.getId());
-		}
+		orderItem.setOrderId(order.getId());
+		
 		OrderItem orderItemInfo = orderItemRepository.insert(orderItem);
 		
 		//注文トッピングインサート、nullの時はインサートなし
 		OrderTopping orderTopping = new OrderTopping();
-		
+				
 		//ToppingIdListはショッピングカートFormにある
 		if(form.getToppingIdList() != null) {
 			for(Integer t : form.getToppingIdList()) {
 				orderTopping.setToppingId(t);
 				orderTopping.setOrderItemId(orderItemInfo.getId());
 				orderToppingRepository.insert(orderTopping);
-			}
+					}
+				}
 		}
 		
 	}

@@ -38,6 +38,9 @@ public class OrderItemRepository {
 	 */
 	synchronized public OrderItem insert(OrderItem orderItem) {
 		
+		System.out.println(""
+				+ "オーダーアイテムは" + orderItem + "です");
+		
 		String insertSql = "INSERT INTO order_items(item_id, order_id, quantity, size) VALUES(:itemId, :orderId, :quantity, :size);";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(orderItem);
 		//後でorderItemのidを使うためキーにして返す（それがこのkeyHolder）

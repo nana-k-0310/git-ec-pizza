@@ -1,8 +1,12 @@
 package com.example.controller;
 
+//import java.sql.Timestamp;
+//import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,8 +57,6 @@ public class OrderController {
 		
 		Order orderList = orderConfirmService.getUserId(userId);
 		
-		System.out.println("表示するのは" + orderList + "です");
-		
 		model.addAttribute("order", orderList);
 		
 		return "/materialize-version/order_confirm";
@@ -72,7 +74,22 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("/order")
-	public String order(OrderForm form, Model model, UserInfo userInfo) {
+	public String order(OrderForm form, BindingResult result, Model model, UserInfo userInfo) {
+		
+		if(form.getDestinationEmail().equals("")) {
+			result.rejectValue("destinationEmail", "", "メールアドレスを入力して下さい");
+		}
+		
+		if(form.getDeliveryDate() == null) {
+			result.rejectValue("deliveryDate", null, "配達日を入力して下さい");
+		}
+		
+		if(result.hasErrors()) {
+			System.out.println("エラー時" + form.getIntId());
+			
+			return orderConfirm(form, form.getIntId(), model);
+		}
+		
 		
 //		LocalDateTime nowLocalDateTime = LocalDateTime.now();
 //		nowLocalDateTime = nowLocalDateTime.plusHours(3);

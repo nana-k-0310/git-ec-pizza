@@ -23,7 +23,15 @@ public class OrderService {
 	@Autowired
 	private OrderRepository orderRepository;
 	
+	/**
+	 * 注文情報を受け取り、利用者の登録を行います.
+	 * 
+	 * @param form　オーダーフォーム
+	 * @return　注文情報
+	 */
+	
 	public Order order(OrderForm form) {
+		
 		Order order = orderRepository.load(Integer.parseInt(form.getId()));
 		
 		java.sql.Date today = new java.sql.Date(new Date().getTime());

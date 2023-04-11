@@ -27,6 +27,12 @@ public class OrderForm {
 	private String deliveryTime;
 	/** ●支払い方法 */
 	private Integer paymentMethod;
+	
+	
+	public Integer getIntId() {
+		return Integer.parseInt(id);
+	}
+	
 	public String getId() {
 		return id;
 	}

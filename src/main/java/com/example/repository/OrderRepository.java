@@ -141,22 +141,22 @@ public class OrderRepository {
 	 * @param order　注文商品
 	 * @return　インサートした注文商品
 	 */
-	synchronized public void insert(Order order) {
+	public Order insert(Order order) {
+		
 		String insertSql = "INSERT INTO orders(user_id, status, total_price, order_date, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method)"
 				+ " VALUES(:userId, :status, :totalPrice, :orderDate, :destinationName, :destinationEmail, :destinationZipcode, :destinationAddress, :destinationTel, :deliveryTime, :paymentMethod);";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
 		
-		//ID使うのでkeyHolder使用
-//		KeyHolder keyHolder = new GeneratedKeyHolder();
-//		String[] keyColumnNames = { "id" };
+		//OrderのIdを使うのでキーにして返す（keyHolder使用）
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		String[] keyColumnNames = { "id" };
 		
-//		template.update(sql, param, keyHolder, keyColumnNames);
-		template.update(insertSql, param);
+		template.update(insertSql, param, keyHolder, keyColumnNames);
 		
-//		order.setId(keyHolder.getKey().intValue());
-//		System.out.println(keyHolder.getKey() + "が割り当てられました");
+		order.setId(keyHolder.getKey().intValue());
+		System.out.println(keyHolder.getKey() + "が割り当てられました");
 		
-//	return order;
+	return order;
 	}
 	
 	/**
@@ -166,7 +166,7 @@ public class OrderRepository {
 	 */
 	
 	public void update(Order order) {
-		String updateSql = "UPDATE orders SET status =:status, total_price=:totalPrice, order_date=:orderDate, destination_name=:destinationName, destination_email=:destinationEmail, destination_zipcode=:destinationZipcode, destination_address=:destinationAddress, destination_tel=:destinationTel, timestamp=:timestamp, payment_method=:paymentMethod WHERE user_id=:userId;";
+		String updateSql = "UPDATE orders SET status =:status, total_price=:totalPrice, order_date=:orderDate, destination_name=:destinationName, destination_email=:destinationEmail, destination_zipcode=:destinationZipcode, destination_address=:destinationAddress, destination_tel=:destinationTel, delivery_time=:deliveryTime, payment_method=:paymentMethod WHERE user_id=:userId;";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
 		template.update(updateSql, param);
 	}
@@ -188,7 +188,7 @@ public class OrderRepository {
 				+ "FROM orders AS o LEFT JOIN order_items AS oi ON o.id = oi.order_id "
 				+ "LEFT JOIN order_toppings AS ot ON oi.id = ot.order_item_id "
 				+ "LEFT JOIN items AS i ON i.id = oi.item_id "
-				+ "LEFT JOIN toppings AS t ON t.id = ot.topping_id WHERE o.id = :id order by o.id,oi.id.ot.id,i.id,t.id;";
+				+ "LEFT JOIN toppings AS t ON t.id = ot.topping_id WHERE o.id = :id order by o.id,oi.id,ot.id,i.id,t.id;";
 		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		List<Order> orderList = template.query(loadSql, param, ORDER_RESULT_SET_EXTRACTOR);
@@ -227,6 +227,8 @@ public class OrderRepository {
 		}
 		return orderList.get(0);
 	}
+	
+	
 
 	
 	
