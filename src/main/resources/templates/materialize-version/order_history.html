@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Import Materialize CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <!-- Import Font Wesome -->
+    <link
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/register_admin.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_detail.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_confirm.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_finished.css}" />
+    <link rel="stylesheet" th:href="@{/css/responsive.css}" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ラクラクピザ</title>
+</head>
+<body>
+
+<header>
+      <div class="container">
+        <div class="header">
+          <div class="header-left">
+            <a th:href="@{/}">
+              <img class="logo" th:src="@{/img/header_logo.png}" />
+            </a>
+          </div>
+
+          <div class="header-right">
+            <a th:href="@{/}">商品一覧</a>
+            <a th:href="@{/register}">会員登録</a>
+            <a th:href="@{/shopping/toCart}"><i class="fas fa-shopping-cart"></i>カート</a>
+            <a th:href="@{/login}" class="login">
+              <i class="fas fa-sign-in-alt"></i>ログイン
+            </a>
+
+            <a href="order_history.html">注文履歴</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+
+<div class="top-wrapper">
+      <div class="container">
+        <h1 class="page-title">注文履歴</h1>
+        <!-- table -->
+        <div class="row">
+          <table class="striped">
+          <th:block th:if="${order.calcTotalPrice != 0}">
+            <thead>
+              <tr class="history-title">
+                <th>ご注文番号・ご注文日</th>
+                <th>ご注文内容</th>
+                <th>合計金額</th>
+              </tr>
+              <tr th:each="order:${orderList}">
+              <td>
+              	<span th:text="${order.id}">注文番号</span><br>
+              	<span th:text="${order.orderDate}">注文日</span><br>
+              	<span class="order-status" th:if="${order.status}==1" th:text="未入金です"></span>
+              	<span class="order-status" th:if="${order.status}==2" th:text="ご入金済みです"></span>
+              	<span class="order-status" th:if="${order.status}==3" th:text="ご配送中です"></span>
+              	<span class="order-status" th:if="${order.status}==4" th:text="ご配送済みです"></span>
+              </td>
+              
+              <td>
+              
+              </td>
+            </thead>
+            </th:block>
+            <tbody>
+              <tr th:each=" orderItem : ${order.orderItemList}">
+              <th:block th:each="item : ${orderItem.item}">
+                <td class="cart-item-name">
+                  <div class="cart-item-icon">
+                  <img
+                  th:src="@{/img/} + ${item.imagePath}" width="100" height="110">
+                  <th:block th:text="${item.name}">ハワイアンパラダイス</th:block>   
+                  </div>
+                  <span th:block="${item.name}">ハワイアンパラダイス</span>
+                </td>
+                <td>
+                <span th:if="${orderItem.size == 'L'}">
+                  <span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceL, 1, 'COMMA')}">2,380</span>円
+                  &nbsp;&nbsp;<span th:text="${orderItem.quantity}">1</span>個
+                  
+                  </span>
+                <span th:if="${orderItem.size == 'M'}">
+                <span class="price">&nbsp;M</span>&nbsp;&nbsp;<span th:text="${#numbers.formatInteger(item.priceM, 1, 'COMMA')}">2,380</span>円
+                  &nbsp;&nbsp;<span th:text="${orderItem.quantity}">1</span>個
+                </span>
+                </td>
+                
+                  <td th:if="${orderItem.size == 'L'}">
+                  <ul th:each="orderTopping : ${orderItem.OrderToppingList}">
+                  <li th:each="topping : ${orderTopping.topping}"><span th:text="${topping.name}">ピーマン</span><span th:text="${topping.priceL}">300</span>円</li>
+                  </ul>
+                   
+                  <td th:if="${orderItem.size == 'M'}">
+                   <ul th:each="orderTopping : ${orderItem.OrderToppingList}">
+                    <li th:each="topping : ${orderTopping.topping}"><span th:text="${topping.name}">ピーマン</span><span th:text="${topping.priceM}">300</span>円</li>
+                  </ul>
+                </td>
+                
+                <td><div class="text-center"><span th:text="${#numbers.formatInteger(orderItem.subTotalPrice, 1, 'COMMA')}">3,280</span>円</div></td>
+                <td>
+                <a th:href="@{/shopping/deleteCart?orderItemId=} + ${orderItem.id}">
+                  <button class="btn" type="button">
+                    <span>削除</span>
+                  </button>
+                </a></td>
+              </tr>
+     
+             
+            </tbody>
+          </table>
+        </div>
+		<div th:if="${order.calcTotalPrice !=0}">
+        <div class="row cart-total-price">
+          <div>ご注文金額合計：<span th:text="${#numbers.formatInteger(order.calcTotalPrice, 1, 'COMMA')}">38,000</span>円 (税込)</div>
+          <div>（内消費税額：<span th:text="${#numbers.formatInteger(order.tax, 1, 'COMMA')}">8,000</span>円）</div>
+        </div>
+        
+        <div class="row order-confirm-btn">
+        <a th:href="@{/orderCon/toOrderConfirm?orderId=} + ${order.id}">
+          <button
+            class="btn"
+            type="submit"
+          >
+            <span>注文に進む</span>
+          </button>
+          </a>
+        </div>
+      </div>
+      </div>
+      <!-- 商品がない時に表示 -->
+      <div th:if="${order.calcTotalPrice == 0}" class="menyureturn-display">
+      <h3>商品が選択されていません</h3>
+      <a th:href="@{/}" >
+      <span>メニューを見る</span>
+      </a>
+      </div>
+      <!-- end container -->
+    </div>
+    <!-- end top-wrapper -->
+    <footer>
+      <div class="container">
+        <img th:src="@{/img/header_logo.png}" />
+        <p>本格ピザをあなたにお届け！</p>
+      </div>
+    </footer>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+
+
+</body>
+</html>

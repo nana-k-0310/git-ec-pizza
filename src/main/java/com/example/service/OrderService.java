@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.checkerframework.checker.units.qual.Temperature;
@@ -44,6 +46,16 @@ public class OrderService {
 		order.setDestinationAddress(form.getDestinationAddress());
 		order.setDestinationTel(form.getDestinationTel());
 		order.setPaymentMethod(form.getPaymentMethod());
+		
+		try {
+			final String yyyyMMddhh = form.getDeliveryDate() + "-" + form.getDeliveryTime();
+			System.out.println("yyyyMMddhh:" + yyyyMMddhh);
+			Date deliveryTime = new SimpleDateFormat("yyyy-MM-dd-hh").parse(yyyyMMddhh);
+			Timestamp deliveryDateTimestamp = new Timestamp(deliveryTime.getTime());
+			order.setDeliveryTime(deliveryDateTimestamp);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		orderRepository.update(order);
 		

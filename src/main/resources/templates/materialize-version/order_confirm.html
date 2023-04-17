@@ -125,20 +125,23 @@
         <h2 class="page-title">お届け先情報</h2>
         <div class="order-confirm-delivery-info">
           <div class="row">
+          <div th:errors="*{destinationName}" style="color:red"></div>
             <div class="input-field">
               <input id="name" name="destinationName" type="text" th:field="*{destinationName}" />
               <label for="name">お名前</label>
             </div>
           </div>
           <div class="row">
+          <div th:errors="*{destinationEmail}" style="color:red"></div>
             <div class="input-field">
               <input id="email" name="destinationEmail" type="email"  th:field="*{destinationEmail}"/>
               <label for="email">メールアドレス</label>
             </div>
           </div>
           <div class="row">
+          <div th:errors="*{destinationZipcode}" style="color:red"></div>
             <div class="input-field">
-              <input id="zipcode" name="destinationZipcode" type="text" maxlength="7" th:field="*{destinationZipcode}" />
+              <input id="zipcode" name="destinationZipcode" type="text" maxlength="8" th:field="*{destinationZipcode}" />
               <label for="zipcode">郵便番号</label>
               <button class="btn" type="button">
                 <span>住所検索</span>
@@ -146,27 +149,31 @@
             </div>
           </div>
           <div class="row">
+          <div th:errors="*{destinationAddress}" style="color:red"></div>
             <div class="input-field">
               <input id="address" name="destinationAddress" type="text" th:field="*{destinationAddress}" />
               <label for="address">住所</label>
             </div>
           </div>
           <div class="row">
+          <div th:errors="*{destinationTel}" style="color:red"></div>
             <div class="input-field">
               <input id="tel" name="destinationTel" type="tel"th:field="*{destinationTel}"  />
               <label for="tel">電話番号</label>
             </div>
           </div>
           <div class="row order-confirm-delivery-datetime">
+          <div th:errors="*{deliveryDate}" style="color:red"></div>
             <div class="input-field">
               <input id="deliveryDate" name="deliveryDate" type="date" th:field="*{deliveryDate}"/>
               <label for="address">配達日時</label>
             </div>
+            <div th:errors="*{deliveryTime}" style="color:red"></div>
             <label class="order-confirm-delivery-time">
               <input
                 name="deliveryTime"
                 type="radio"
-                value="10時"
+                value="10"
                 checked="checked"
                 th:field="*{deliveryTime}"
               />

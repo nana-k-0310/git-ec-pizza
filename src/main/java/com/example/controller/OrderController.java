@@ -1,12 +1,15 @@
 package com.example.controller;
 
-//import java.sql.Timestamp;
-//import java.time.LocalDateTime;
+import java.util.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,7 +77,7 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("/order")
-	public String order(OrderForm form, BindingResult result, Model model, UserInfo userInfo) {
+	public String order(@Validated OrderForm form, BindingResult result, Model model, UserInfo userInfo) {
 		
 		if(form.getDestinationEmail().equals("")) {
 			result.rejectValue("destinationEmail", "", "メールアドレスを入力して下さい");
@@ -91,11 +94,35 @@ public class OrderController {
 		}
 		
 		
-//		LocalDateTime nowLocalDateTime = LocalDateTime.now();
-//		nowLocalDateTime = nowLocalDateTime.plusHours(3);
-//		Timestamp after3TimeStamp = Timestamp.valueOf(nowLocalDateTime);
-
+		LocalDateTime nowLocalDateTime = LocalDateTime.now();
+		nowLocalDateTime = nowLocalDateTime.plusHours(3);
+		Timestamp after3TimeStamp = Timestamp.valueOf(nowLocalDateTime);
+		
+		System.out.println("formの日付は" + form.getDeliveryDate() + "です");
+		System.out.println("formの時間は" + form.getDeliveryTime() + "です");
+		
+		try {
+			final String yyyyMMddhh = form.getDeliveryDate() + "-" + form.getDeliveryTime();
+			Date deliveryTime = (Date) new SimpleDateFormat("yyyy-MM-dd-hh").parse(yyyyMMddhh);
+			Timestamp deliveryDateTimestamp = new Timestamp(deliveryTime.getTime());
+			System.out.println("after3TimeStampは" + after3TimeStamp);
+			
+			if(deliveryDateTimestamp.before(after3TimeStamp)) {
+				
+				result.rejectValue("deliveryDate", null, "今から3時間後の日時を入力して下さい");
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(result.hasErrors()) {
+			return orderConfirm(form, form.getIntId(), model);
+		} 
+		
 		orderService.order(form);
+		
+		
 		
 		return "/materialize-version/order_finished";
 	}

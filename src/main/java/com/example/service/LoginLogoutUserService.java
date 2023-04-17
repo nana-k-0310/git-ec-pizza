@@ -29,9 +29,9 @@ public class LoginLogoutUserService {
 	 */
 	public UserInfo login(LoginLogoutUserForm form) {
 		UserInfo user = repository.findByEmail(form.getEmail());
-//		if (!(form.getPassword().equals(user.getPassword()))) {
-//			return null;
-//		}
+		if (!(form.getPassword().equals(user.getPassword()))) {
+			return null;
+		}
 		return user;
 	}
 

@@ -63,9 +63,6 @@ public class LoginLogoutUserController {
 		
 		session.setAttribute("user", user);
 		
-		//shoppingCartの表示するためSessionで保持
-	//			session.setAttribute("userId", user.getId());
-
 			return "redirect:/";
 		
 	}
