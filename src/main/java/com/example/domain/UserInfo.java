@@ -6,7 +6,7 @@ package com.example.domain;
  * @author nanakono
  *
  */
-public class User {
+public class UserInfo {
 	/** ユーザーID */
 	private Integer id;
 	/** 顧客氏名 */

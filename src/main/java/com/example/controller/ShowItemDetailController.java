@@ -31,7 +31,6 @@ public class ShowItemDetailController {
 	 */
 	@GetMapping("/toItemDetail")
 	public String showItemDetail(Integer id, Model model) {
-		System.out.println(id);
 		Item item = itemService.showItemDetail(id);
 		model.addAttribute("item", item);
 		

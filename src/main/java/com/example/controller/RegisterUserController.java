@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.domain.User;
+import com.example.domain.UserInfo;
 import com.example.form.RegisterUserForm;
 import com.example.service.RegisterUserService;
 
@@ -70,7 +70,7 @@ public class RegisterUserController {
 		}
 
 		// ** 登録し、ログイン画面に遷移 *//
-		User user = new User();
+		UserInfo user = new UserInfo();
 		user.setName(form.getName());
 		user.setEmail(form.getEmail());
 		user.setPassword(form.getPassword());
