@@ -27,8 +27,8 @@ public class ShowItemListService {
 	 * 
 	 * @return　商品情報全件リスト
 	 */
-	public List<Item> findAll(){
-		List<Item> itemList = repository.findAll();
+	public List<Item> findAll(String order){
+		List<Item> itemList = repository.findAll(order);
 		return itemList;
 	}
 	

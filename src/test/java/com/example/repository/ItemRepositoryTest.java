@@ -82,8 +82,8 @@ class ItemRepositoryTest {
 	
 	//全件検索
 	@Test
-	void 商品全件検索() throws Exception{
-		List<Item> itemList = repository.findAll();
+	void 商品全件検索(String order) throws Exception{
+		List<Item> itemList = repository.findAll(order);
 		assertEquals(18, itemList.size(), "登録されていないデータがあります");
 		Item item1 = itemList.get(0);
 		assertEquals("じゃがバターベーコン", item1.getName(), "名前が登録されていません");

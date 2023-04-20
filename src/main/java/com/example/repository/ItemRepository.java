@@ -58,10 +58,20 @@ public class ItemRepository {
 	 * 
 	 * @return　商品全件情報
 	 */
-	public List<Item> findAll(){
+	public List<Item> findAll(String order){
+		if("high".equals(order)) {
+			String sql = "SELECT id,name,description,price_m,price_l,image_path, deleted FROM items ORDER BY price_m DESC, id;";
+			List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
+			return itemList;
+		} else if("low".equals(order)) {
+			String sql = "SELECT id,name,description,price_m,price_l,image_path, deleted FROM items ORDER BY price_m, id;";
+			List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
+			return itemList;
+		} else {
 		String sql = "SELECT id,name,description,price_m,price_l,image_path, deleted FROM items ORDER BY id;";
 		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
 		return itemList;
+		}
 	}
 	
 	/**

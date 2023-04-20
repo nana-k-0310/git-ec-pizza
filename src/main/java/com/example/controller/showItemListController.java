@@ -25,22 +25,29 @@ public class showItemListController {
 	 * @return 商品一覧画面
 	 */
 	@GetMapping("")
-	public String showItemList(Model model) {
-		List<Item> itemList = service.findAll();
+	public String showItemList(String order, Model model) {
+		List<Item> itemList = service.findAll(order);
 		model.addAttribute("itemList", itemList);
 		return "materialize-version/item_list";
 	}
 
+	/**
+	 * 名前の一覧検索.
+	 * 
+	 * @param name　商品名
+	 * @param model　モデル
+	 * @return　一覧画面へ遷移
+	 */
 	@GetMapping("/findByName")
-	public String findByName(String name, Model model) {
+	public String findByName(String name, String order, Model model) {
 		if(name.equals("")) {
 			model.addAttribute("result", "検索結果が0件の為、全件検索します");
-			return showItemList(model);
+			return showItemList(order, model);
 		}
 		List<Item> itemList = service.findByName(name);
 		if(itemList.size() == 0) {
 			model.addAttribute("result", "検索結果が0件の為、全件検索します" );
-			return showItemList(model);
+			return showItemList(order, model);
 		} else {
 		model.addAttribute("itemList", itemList);
 		return "materialize-version/item_list";
