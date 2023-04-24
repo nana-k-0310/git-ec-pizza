@@ -44,7 +44,7 @@ public class showItemListController {
 			model.addAttribute("result", "検索結果が0件の為、全件検索します");
 			return showItemList(order, model);
 		}
-		List<Item> itemList = service.findByName(name);
+		List<Item> itemList = service.findByName(name, order);
 		if(itemList.size() == 0) {
 			model.addAttribute("result", "検索結果が0件の為、全件検索します" );
 			return showItemList(order, model);

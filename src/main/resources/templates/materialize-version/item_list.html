@@ -52,34 +52,34 @@
               <i class="fas fa-sign-in-alt"></i>ログイン
             </a>
 
-            <a href="order_history.html">注文履歴</a>
+            <a th:href="@{/orderHistory}">注文履歴</a>
           </div>
         </div>
       </div>
     </header>
-    <!-- search form -->
+   <!-- search form -->
     <div class="search-wrapper">
       <div class="container">
       <div style="color:red;" th:text="${result}"></div>
         <form th:action="@{/findByName}" method="get" class="search-form">
-          <input type="text" name="name" class="search-name-input" />
-
-		  <div class="order-by-price-selectbox">
-		  <div class="container">
-		  <select class="ordr-by-price" name="order">
-		  <option value="" selected>選択して下さい</option>
-		  <option value="high">値段が高い順</option>
-		  <option value="low">値段が低い順</option>
-		  </select>
-		  </div>
-		  </div>
-		  
+           <input type="text" name="name" class="search-name-input" />
+           
+          <div class="order-by-price-selectbox">
+                <div class="container">
+                  <select class="order-by-price browser-default" name="order">
+                    <option value="" selected>選択して下さい</option>
+                    <option value="high">値段が高い順</option>
+                    <option value="low">値段が低い順</option>
+                  </select>
+                </div>
+              </div>
           <button class="btn search-btn" type="submit">
             <span>検　索</span>
           </button>
         </form>
       </div>
     </div>
+   
 
     <!-- item list -->
     <div class="item-wrapper">

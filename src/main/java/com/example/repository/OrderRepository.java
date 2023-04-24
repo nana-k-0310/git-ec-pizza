@@ -61,6 +61,7 @@ public class OrderRepository {
 				Order order = new Order();
 				order.setId(nowOrderId);
 				order.setUserId(rs.getInt("user_id"));
+				order.setStatus(rs.getInt("status"));
 				order.setTotalPrice(rs.getInt("total_price"));
 				order.setOrderDate(rs.getDate("order_date"));			
 				order.setDestinationName(rs.getString("destination_name"));

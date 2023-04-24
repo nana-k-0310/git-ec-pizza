@@ -80,11 +80,22 @@ public class ItemRepository {
 	 * @param name　名前に含まれるワード
 	 * @return	　　　検索された商品情報
 	 */
-	public List<Item> findByName(String name){
+	public List<Item> findByName(String name, String order){
+		if("high".equals(order)) {
+			String sql = "SELECT id,name,description,price_m,price_l,image_path, deleted FROM items WHERE name ilike :name ORDER BY price_m DESC, id;";
+			SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
+			List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
+			return itemList;
+		} else if("low".equals(order)) {
+			String sql = "SELECT id,name,description,price_m,price_l,image_path, deleted FROM items WHERE name ilike :name ORDER BY price_m, id;";
+			SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
+			List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
+			return itemList;
+		} else {
 		String sql = "SELECT id, name, description, price_m, price_l, image_path, deleted FROM items WHERE name ilike :name ORDER BY id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
-	
+		}
 	}
 }

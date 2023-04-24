@@ -12,7 +12,7 @@
   padding: 80px 0 50px 0; /*上はヘッダが来るのでその分180px分空ける*/
   /* text-align: center; */
   position: fixed; /* スクロールしても表示されるように位置を固定 */
-  height: 200px;
+  height: 300px;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.9);
   z-index: 1; /* 上に表示されるようにする(数が多いほど上に来る。例えば-1にすると裏側に行き見えなくなります) */
@@ -76,7 +76,7 @@
    ======================================== */
 
 .item-wrapper {
-  padding-top: 200px; /* 上はヘッダや検索フォームが来るのでその分空ける */
+  padding-top: 300px; /* 上はヘッダや検索フォームが来るのでその分空ける */
   padding-bottom: 80px;
   padding-left: 15%;
   padding-right: 5%;

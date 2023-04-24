@@ -38,8 +38,8 @@ public class ShowItemListService {
 	 * @param name　検索されたワード
 	 * @return1	　　　検索された商品情報
 	 */
-	public List<Item> findByName(String name){
-		List<Item> itemList = repository.findByName(name);
+	public List<Item> findByName(String name, String order){
+		List<Item> itemList = repository.findByName(name, order);
 		return itemList;
 	}
 
