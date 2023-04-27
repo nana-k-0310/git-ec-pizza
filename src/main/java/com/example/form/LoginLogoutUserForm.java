@@ -11,10 +11,8 @@ import jakarta.validation.constraints.NotBlank;
 public class LoginLogoutUserForm {
 	
 	/** パスワード */
-	@NotBlank(message="パスワードを入力して下さい")
 	private String password;
 	/** メールアドレス */
-	@NotBlank(message="メールアドレスを入力して下さい")
 	private String email;
 
 	public String getPassword() {

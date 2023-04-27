@@ -59,7 +59,7 @@ public class RegisterUserController {
 		
 		//** メールアドレス重複確認 *//
 		if(!(service.findByEmail(form.getEmail()) == null)){
-			result.rejectValue("email", " ", "メールアドレスが重複しています");
+			result.rejectValue("email", " ", "そのメールアドレスはすでに使われています");
 		}
 
 		

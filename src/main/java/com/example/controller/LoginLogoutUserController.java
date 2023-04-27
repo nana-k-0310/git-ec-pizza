@@ -57,6 +57,8 @@ public class LoginLogoutUserController {
 
 		UserInfo user = service.login(form);
 		
+		System.out.println("userは" + user);
+		
 		if(user == null) {
 			model.addAttribute("errorMessage", "メールまたはパスワードが間違っています");
 			return login(form);
