@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import com.example.domain.UserInfo;
 
 @SpringBootTest
+@DisplayName("ユーザー登録リポジトリ")
 class UserRepositoryTest {
 
 	@Autowired
@@ -34,6 +36,7 @@ class UserRepositoryTest {
 	}
 
 	@BeforeEach
+	@DisplayName("仮ユーザーを登録する")
 	void setUp() throws Exception {
 		UserInfo user = new UserInfo();
 		user.setName("テスト名");
@@ -75,6 +78,7 @@ class UserRepositoryTest {
 	}
 
 	@AfterEach
+	@DisplayName("仮ユーザーを削除する")
 	void tearDown() throws Exception {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("email", "test@gmail.com");
 		template.update("DELETE FROM users WHERE email = :email", param);

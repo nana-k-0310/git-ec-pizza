@@ -79,8 +79,8 @@
               	<span th:text="${order.orderDate}">注文日</span><br>
               	<th:block class="order-status" th:switch="${order.status}" >
               		<p th:case=1 th:text="未入金です"></p>
-              		<p th:case=2 th:text="入金済み"></p>
-              		<p th:case=3 th:text="配送中"></p>
+              		<p th:case=2 th:text="入金済みです"></p>
+              		<p th:case=3 th:text="配送中です"></p>
               		<p th:case=4 th:text="配送済みです"></p>
               	</th:block>
 

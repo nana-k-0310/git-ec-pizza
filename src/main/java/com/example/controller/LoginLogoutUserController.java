@@ -14,6 +14,7 @@ import com.example.form.LoginLogoutUserForm;
 import com.example.service.LoginLogoutUserService;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -67,6 +68,23 @@ public class LoginLogoutUserController {
 		
 	}
 	
+	@GetMapping("/toLogout")
+	public String toLogout(LoginLogoutUserForm form) {
+		
+		// Sessionを破棄
+//        session.invalidate();
+		
+		System.out.println("userは" + session.getAttribute("user") + "です");
+		
+		  session.removeAttribute("user");
+		  
+		System.out.println("解除後のuserは" + session.getAttribute("user") + "です");
+        
+//        RequestDispatcher rd = getServletContext().getRequestDispatcher("/user");
+//        rd.forward(request, response);
+	
+		return login(form);
+	}	
 }
 	
 	
