@@ -68,8 +68,12 @@ public class ShoppingCartController {
 	 * @return　カートリスト
 	 */
 	@GetMapping("/toCart")
-	public String toCartList(Model model, UserInfo userInfo) {
+	public String toCartList(Model model, LoginLogoutUserForm userForm, UserInfo userInfo) {
 		UserInfo displayUserInfo = (UserInfo) session.getAttribute("user");
+		
+		if(Objects.isNull(displayUserInfo)) {
+			return goLogin(userForm);
+		}
 		
 		Order order = shoppingCartService.showCart(displayUserInfo.getId());
 		
