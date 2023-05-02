@@ -38,7 +38,7 @@ public class ShoppingCartController {
 	 * 
 	 * @param form　ショッピングカートフォーム
 	 * @param model　モデル
-	 * @param userinfo
+	 * @param userinfo ユーザー情報
 	 * @return　toCartへリダイレクト
 	 */
 	@PostMapping("/insertCart")
