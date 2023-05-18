@@ -70,6 +70,12 @@ public class LoginLogoutUserController {
 		
 	}
 	
+	/**
+	 * ログアウトする.
+	 * 
+	 * @param form フォーム
+	 * @return　ログイン画面へ遷移.
+	 */
 	@GetMapping("/toLogout")
 	public String toLogout(LoginLogoutUserForm form) {
 		

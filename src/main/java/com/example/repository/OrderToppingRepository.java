@@ -1,9 +1,12 @@
 package com.example.repository;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -37,6 +40,18 @@ public class OrderToppingRepository {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(orderTopping);
 		template.update(sql, param);
 		return orderTopping;
+	}
+	
+/**order_item_idからトッピングリスト取得 */
+	
+	public List<OrderTopping> findOrderItemId(Integer orderItemId){
+		String findSql = "SELECT id, topping_id, order_item_id FROM order_toppings WHERE order_item_id = :order_item_id;";
+		
+		SqlParameterSource param = new MapSqlParameterSource().addValue("order_item_id", orderItemId);
+		
+		List<OrderTopping> orderToppingList = template.query(findSql, param, ORDERTOPPING_ROW_MAPPER);
+		
+		return orderToppingList;
 	}
 		
 		

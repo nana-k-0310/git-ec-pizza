@@ -65,7 +65,7 @@ class UserRepositoryTest {
 		assertEquals("00-1234-5678", user1.getTelephone(), "電話番号が登録されていません");
 	}
 
-	//** メールアドレスとパスワードからユーザー情報を取得する./
+	//** パスワードとメールアドレスからユーザー情報を取得する./
 	@Test
 	void ユーザー情報メールパスワード登録テスト() throws Exception {
 		UserInfo user2 = userRepository.fincByPasswordAndEmail("testtest", "test@gmail.com");

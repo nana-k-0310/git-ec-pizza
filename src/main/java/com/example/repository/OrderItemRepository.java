@@ -13,6 +13,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.example.domain.Item;
 import com.example.domain.OrderItem;
 
 /**
@@ -65,11 +66,51 @@ public class OrderItemRepository {
 		
 		String loadSql = "SELECT id, item_id, order_id, quantity, size FROM order_items WHERE id = :id ;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		
+		System.out.println("ここまでok１");
+		
 		List<OrderItem> orderItemList = template.query(loadSql, param, ORDERITEM_ROW_MAPPER);
 		if(orderItemList.size() == 0) {
 			return null;
 		}
+		
+		System.out.println("ここまでok2");
+		
 		return orderItemList.get(0);
+	}
+	
+	/**
+	 * 同じオーダーIDから商品リストを渡す.
+	 * 
+	 * @param orderId 注文Id
+	 * @return　注文商品リスト
+	 */
+	public List<OrderItem> sameOrderLoad(Integer orderId) {
+		
+		String loadSql = "SELECT id, item_id, order_id, quantity, size FROM order_items WHERE order_id = :order_id;";
+		
+		SqlParameterSource param = new MapSqlParameterSource().addValue("order_id", orderId);
+		
+		List<OrderItem> orderItemList = template.query(loadSql, param, ORDERITEM_ROW_MAPPER);
+		
+		if(orderItemList.size() == 0) {
+			return null;
+		}
+		
+		return orderItemList;
+		
+	}
+	
+	/** 同じ商品の場合個数を更新する*/
+	
+	public void updateCount(Integer newQuantity, Integer id) {
+		String updateSql = "UPDATE order_items SET quantity = :quantity WHERE id = :id";
+		
+		SqlParameterSource param = new MapSqlParameterSource().addValue("quantity", newQuantity).addValue("id", id);
+		
+		template.update(updateSql, param);
+		
+		System.out.println("ここまではokです！");
 	}
 	
 	/**

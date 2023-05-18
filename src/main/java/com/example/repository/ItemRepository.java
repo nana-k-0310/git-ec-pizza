@@ -52,6 +52,23 @@ public class ItemRepository {
 		return item;
 	}
 	
+	/** OrderItemのitemIdからitem取得/
+	 * 
+	 */
+	
+	public Item itemLoad(Integer itemId) {
+		
+		System.out.println("itemIDは" + itemId);
+		
+		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items WHERE id = id;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", itemId);
+		
+		//これ↓
+		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
+		
+		return item;
+	}
+	
 	
 	/**
 	 * 全件検索を行います.

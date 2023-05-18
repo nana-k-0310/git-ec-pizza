@@ -226,6 +226,9 @@ public class OrderRepository {
 		if(orderList.size() == 0) {
 			return null;
 		}
+		
+		System.out.println("orderはID61" + orderList.get(0));
+		
 		return orderList.get(0);
 	}
 	
