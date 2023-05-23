@@ -35,8 +35,11 @@ public class LoginLogoutUserService {
 		if (!(form.getPassword().equals(user.getPassword()))) {
 			return null;
 		}
+		
 		}
+		
 		return user;
+		
 	}
 
 }

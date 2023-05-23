@@ -44,9 +44,6 @@ public class ShoppingCartController {
 	private HttpSession session;
 	
 	@Autowired
-	private OrderRepository orderRepository;
-	
-	@Autowired
 	private ShowItemDetailService showItemDetailService;
 	
 	
@@ -59,7 +56,7 @@ public class ShoppingCartController {
 	 * @return　toCartへリダイレクト
 	 */
 	@PostMapping("/insertCart")
-	public String insertCart(ShoppingCartForm form, LoginLogoutUserForm userForm,  Model model, UserInfo userinfo) {
+	public String insertCart(ShoppingCartForm form, LoginLogoutUserForm userForm,  Model model) {
 		
 		/**ログイン時にセッションスコープでログイン情報を登録してあるので取り出す*/
 		UserInfo insertUser = (UserInfo)session.getAttribute("user");
@@ -84,7 +81,7 @@ public class ShoppingCartController {
 			List<OrderItem> orderItemList = showItemDetailService.itemListByOrderId(nowOrderStatus.getId());
 
 		
-				for(OrderItem orderItem : orderItemList) {
+			for(OrderItem orderItem : orderItemList) {
 			
 					/**もしトッピングがあればトッピングIDリストを作成する */
 					
@@ -93,34 +90,59 @@ public class ShoppingCartController {
 					List<Integer> toppingIdInsertList = toppingIdList.addId();
 					
 					
-						for(OrderTopping orderTopping : orderItem.getOrderToppingList()) {
+					for(OrderTopping orderTopping : orderItem.getOrderToppingList()) {
 			
 							toppingIdInsertList.add(orderTopping.getToppingId());
 				
-						}
+					}
 						
+				  //【前 ＝ ✕】　前に登録した商品トッピングリストが空のとき
+				  if(toppingIdInsertList.size() == 0) {
+					
+					  		//【今 ＝ ✕】　form（今回）のトッピングリストがnullの時は比較する
+					  		if(Objects.isNull(form.getToppingIdList())) {
 						
-				System.out.println("formのトッピングリストは" + form.getToppingIdList());
-				System.out.println("前に登録してある同じ商品のトッピングリストは" + toppingIdInsertList);
-				System.out.println("今回の注文商品のトッピングリストと前の登録商品のトッピングりすとは同じか？同じ→" + form.getToppingIdList().equals(toppingIdInsertList));
-			
-				if(form.getItemId().equals(orderItem.getItemId()) && form.getSize().equals(orderItem.getSize()) && form.getToppingIdList().equals(toppingIdInsertList)) {
+					  				//【それ以外 ＝ 一致】　トッピングなしでそれ以外一致の場合、ショッピングカート画面へ遷移
+					  				if(form.getItemId().equals(orderItem.getItemId()) && form.getSize().equals(orderItem.getSize())) {
+							
+					  					orderItem.setQuantity(orderItem.getQuantity() + form.getQuantity());
+					  					showItemDetailService.updateCount(orderItem.getQuantity(), orderItem.getId());
+							
+					  					return "redirect:/shopping/toCart";
+							
+					  				} 
+					
+					  		} 
+					
+				//【前 ＝ 〇】　前に登録した商品トッピングリストがあるとき	
+				} else {
+					
+							//【今 ＝ 〇】　form（今回）のトッピングリストがあるとき
+							if(!(Objects.isNull(form.getToppingIdList()))) {
+						
+								//【それ以外 ＝ 一致】　
+								if(form.getItemId().equals(orderItem.getItemId()) && form.getSize().equals(orderItem.getSize()) && form.getToppingIdList().equals(toppingIdInsertList)) {
 				
-				orderItem.setQuantity(orderItem.getQuantity() + form.getQuantity());
-				showItemDetailService.updateCount(orderItem.getQuantity(), orderItem.getId());
+									orderItem.setQuantity(orderItem.getQuantity() + form.getQuantity());
+									showItemDetailService.updateCount(orderItem.getQuantity(), orderItem.getId());
 				
-				return "redirect:/shopping/toCart";
+									return "redirect:/shopping/toCart";
+				
+								} 
+				
+							}
+		
 				}
+				
+			} 
 		
 		}
-				
-	} //*←以前0円でないオーダーがあるときのifの括弧*//
-		
 		/**　重なる商品がない場合はインサートする */
 		
 		shoppingCartService.insertCart(form, insertUser.getId());
 		
 		return "redirect:/shopping/toCart";
+	
 	}
 	
 	/**
@@ -131,7 +153,7 @@ public class ShoppingCartController {
 	 * @return　カートリスト
 	 */
 	@GetMapping("/toCart")
-	public String toCartList(Model model, LoginLogoutUserForm userForm, UserInfo userInfo) {
+	public String toCartList(Model model, LoginLogoutUserForm userForm) {
 		UserInfo displayUserInfo = (UserInfo) session.getAttribute("user");
 		
 		if(Objects.isNull(displayUserInfo)) {

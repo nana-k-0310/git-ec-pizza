@@ -34,7 +34,6 @@ public class OrderItem {
 		int subtotalM = 0;
 		int nulltotalL = 0;
 		int nulltotalM = 0;
-			System.out.println(this.getOrderToppingList().size());
 			
 			if(this.getOrderToppingList().isEmpty() && this.size.equals("L")) {
 				nulltotalL = this.quantity * this.item.getPriceL();

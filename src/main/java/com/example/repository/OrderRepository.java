@@ -155,7 +155,6 @@ public class OrderRepository {
 		template.update(insertSql, param, keyHolder, keyColumnNames);
 		
 		order.setId(keyHolder.getKey().intValue());
-		System.out.println(keyHolder.getKey() + "が割り当てられました");
 		
 	return order;
 	}
@@ -166,10 +165,11 @@ public class OrderRepository {
 	 * @param order 注文情報
 	 */
 	
-	public void update(Order order ) {
+	public Order update(Order order) {
 		String updateSql = "UPDATE orders SET status =:status, total_price=:totalPrice, order_date=:orderDate, destination_name=:destinationName, destination_email=:destinationEmail, destination_zipcode=:destinationZipcode, destination_address=:destinationAddress, destination_tel=:destinationTel, delivery_time=:deliveryTime, payment_method=:paymentMethod WHERE user_id=:userId and id = :id;";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
 		template.update(updateSql, param);
+		return order;
 	}
 	
 	
@@ -226,8 +226,6 @@ public class OrderRepository {
 		if(orderList.size() == 0) {
 			return null;
 		}
-		
-		System.out.println("orderはID61" + orderList.get(0));
 		
 		return orderList.get(0);
 	}

@@ -48,7 +48,7 @@ public class OrderController {
 	 * @return　注文画面へ遷移.
 	 */
 	@GetMapping("/toOrderConfirm")
-	public String orderConfirm(OrderForm form, Integer orderId, Model model) {
+	public String orderConfirm(OrderForm form, Model model) {
 		UserInfo orderUser = (UserInfo)session.getAttribute("user");
 		form.setDestinationName(orderUser.getName());
 		form.setDestinationEmail(orderUser.getEmail());
@@ -58,7 +58,7 @@ public class OrderController {
 	
 		Integer userId = orderUser.getId();
 		
-		Order orderList = orderConfirmService.getUserId(userId);
+		Order orderList = orderConfirmService.getOrderByUserId(userId);
 		
 		model.addAttribute("order", orderList);
 		
@@ -77,7 +77,7 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("/order")
-	public String order(@Validated OrderForm form, BindingResult result, Model model, UserInfo userInfo) {
+	public String order(@Validated OrderForm form, BindingResult result, Model model) {
 		
 		if(form.getDestinationEmail().equals("")) {
 			result.rejectValue("destinationEmail", "", "メールアドレスを入力して下さい");
@@ -90,7 +90,7 @@ public class OrderController {
 		if(result.hasErrors()) {
 			System.out.println("エラー時" + form.getIntId());
 			
-			return orderConfirm(form, form.getIntId(), model);
+			return orderConfirm(form, model);
 		}
 		
 		
@@ -98,14 +98,10 @@ public class OrderController {
 		nowLocalDateTime = nowLocalDateTime.plusHours(3);
 		Timestamp after3TimeStamp = Timestamp.valueOf(nowLocalDateTime);
 		
-		System.out.println("formの日付は" + form.getDeliveryDate() + "です");
-		System.out.println("formの時間は" + form.getDeliveryTime() + "です");
-		
 		try {
 			final String yyyyMMddhh = form.getDeliveryDate() + "-" + form.getDeliveryTime();
 			Date deliveryTime = (Date) new SimpleDateFormat("yyyy-MM-dd-hh").parse(yyyyMMddhh);
 			Timestamp deliveryDateTimestamp = new Timestamp(deliveryTime.getTime());
-			System.out.println("after3TimeStampは" + after3TimeStamp);
 			
 			if(deliveryDateTimestamp.before(after3TimeStamp)) {
 				
@@ -117,11 +113,11 @@ public class OrderController {
 		}
 		
 		if(result.hasErrors()) {
-			return orderConfirm(form, form.getIntId(), model);
+			return orderConfirm(form, model);
 		} 
 		
-		orderService.order(form);
-		
+		Order order = orderService.order(form);
+		System.out.println(order + "注文完了");
 		
 		
 		return "/materialize-version/order_finished";

@@ -72,8 +72,6 @@ public class ShowItemDetailService {
 		List<OrderItem> orderItemList = orderItemRepository.sameOrderLoad(orderId);
 		for(OrderItem orderItem : orderItemList) {
 			
-			System.out.println("orderItemは" + orderItem + "である");
-			
 				Item item = itemRepository.load(orderItem.getItemId());
 				
 				orderItem.setItem(item);
@@ -83,8 +81,6 @@ public class ShowItemDetailService {
 				orderItem.setOrderToppingList(orderToppingList);
 				
 			}
-		
-		System.out.println("ここまでは" + orderItemList + "です");
 		
 		return orderItemList;
 		

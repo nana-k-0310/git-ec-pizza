@@ -98,7 +98,6 @@
                   th:src="@{/img/} + ${item.imagePath}" width="100" height="110">
                   <th:block th:text="${item.name}">ハワイアンパラダイス</th:block>   
                   </div>
-                  <span th:block="${item.name}">ハワイアンパラダイス</span>
                 </td>
                 <td>
                 <span th:if="${orderItem.size == 'L'}">
@@ -143,7 +142,7 @@
         </div>
         
         <div class="row order-confirm-btn">
-        <a th:href="@{/orderCon/toOrderConfirm?orderId=} + ${order.id}">
+        <a th:href="@{/orderCon/toOrderConfirm}">
           <button
             class="btn"
             type="submit"

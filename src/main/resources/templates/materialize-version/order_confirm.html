@@ -59,7 +59,7 @@
             </a>
             </th:block>
 
-            <a href="order_history.html">注文履歴</a>
+            <a th:href="@{/orderHistory}">注文履歴</a>
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@
                   <div class="cart-item-icon">
                   	<a th:href="@{/showItem/toItemDetail?id=} + ${item.id}">
                     <img th:src="@{/img/} + ${item.imagePath}"/>
-                    	 /></a>
+                    	 </a>
                     <th:block th:text="${item.name}"></th:block>
                   </div>
                 </td>

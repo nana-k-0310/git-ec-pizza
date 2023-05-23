@@ -44,8 +44,6 @@ public class OrderHistoryController {
 		
 		List<Order> orderList = orderHistoryService.showOrderHistory(userId);
 		
-		System.out.println("orderListは" + orderList + "です");
-		
 		model.addAttribute("orderList", orderList);
 		
 		return "materialize-version/order_history";

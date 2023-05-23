@@ -57,8 +57,6 @@ public class LoginLogoutUserController {
 
 		UserInfo user = service.login(form);
 		
-		System.out.println("userは" + user);
-		
 		if(user == null) {
 			model.addAttribute("errorMessage", "メールまたはパスワードが間違っています");
 			return login(form);
@@ -79,18 +77,8 @@ public class LoginLogoutUserController {
 	@GetMapping("/toLogout")
 	public String toLogout(LoginLogoutUserForm form) {
 		
-		// Sessionを破棄
-//        session.invalidate();
-		
-		System.out.println("userは" + session.getAttribute("user") + "です");
-		
 		  session.removeAttribute("user");
 		  
-		System.out.println("解除後のuserは" + session.getAttribute("user") + "です");
-        
-//        RequestDispatcher rd = getServletContext().getRequestDispatcher("/user");
-//        rd.forward(request, response);
-	
 		return login(form);
 	}	
 }

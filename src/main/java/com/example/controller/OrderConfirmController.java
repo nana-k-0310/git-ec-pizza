@@ -38,17 +38,21 @@ public class OrderConfirmController {
 	
 //	}
 
-	@GetMapping("/orderConfirm")
-	public String orderConfirm(Model model) {
-		UserInfo user = (UserInfo) session.getAttribute("user");
-		System.out.println("userは" + user + "です");
+	
+	//ここから↓コメントにしてます。
+	//エラー出たらコメント消す。
+	
+//	@GetMapping("/orderConfirm")
+//	public String orderConfirm(Model model) {
+//		UserInfo user = (UserInfo) session.getAttribute("user");
+//		System.out.println("userは" + user + "です");
 		
-		Order orderInfo = shoppingCartService.showCart(user.getId());
-		model.addAttribute("order", orderInfo);
+//		Order orderInfo = shoppingCartService.showCart(user.getId());
+//		model.addAttribute("order", orderInfo);
 		
-		System.out.println("order情報は" + orderInfo + "です");
+//		System.out.println("order情報は" + orderInfo + "です");
 		
-		return "materialize-version/order_confirm";
-	}
+//		return "materialize-version/order_confirm";
+//	}
 
 }

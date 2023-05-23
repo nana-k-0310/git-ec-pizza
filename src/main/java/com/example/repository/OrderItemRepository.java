@@ -39,9 +39,6 @@ public class OrderItemRepository {
 	 */
 	synchronized public OrderItem insert(OrderItem orderItem) {
 		
-		System.out.println(""
-				+ "オーダーアイテムは" + orderItem + "です");
-		
 		String insertSql = "INSERT INTO order_items(item_id, order_id, quantity, size) VALUES(:itemId, :orderId, :quantity, :size);";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(orderItem);
 		//後でorderItemのidを使うためキーにして返す（それがこのkeyHolder）
@@ -50,7 +47,6 @@ public class OrderItemRepository {
 		
 		template.update(insertSql, param, keyHolder, keyColumnNames);
 		
-	
 		orderItem.setId(keyHolder.getKey().intValue());
 		
 		return orderItem;
@@ -110,7 +106,6 @@ public class OrderItemRepository {
 		
 		template.update(updateSql, param);
 		
-		System.out.println("ここまではokです！");
 	}
 	
 	/**
@@ -131,7 +126,6 @@ public class OrderItemRepository {
 	 */
 	public void allDeleteOrderItem(Integer orderItemOrderId){
 		String allDeleteSql = "DELETE FROM order_items WHERE order_id=:orderId;";
-		System.out.println("削除するIDは" + orderItemOrderId + "です");
 		SqlParameterSource param = new MapSqlParameterSource().addValue("orderId", orderItemOrderId);
 		template.update(allDeleteSql, param);
 	}

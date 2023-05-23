@@ -27,7 +27,7 @@ public class RegisterUserController {
 	private RegisterUserService service;
 
 	/**
-	 * 使用するフォームオブジェクトをリクエストスコープに格納する.
+	 * 使用するフォームオブジェクトをリクエストスコープに格納しユーザー登録画面を表示する.
 	 * 
 	 * @param form フォーム
 	 * @return ユーザー登録画面

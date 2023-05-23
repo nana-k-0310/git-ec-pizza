@@ -20,7 +20,7 @@ public class OrderConfirmService {
 	 * @param userId　ユーザーID
 	 * @return　検索された注文情報
 	 */
-	public Order getUserId(Integer userId) {
+	public Order getOrderByUserId(Integer userId) {
 		Order order = orderRepository.findByUserIdAndStatus(userId, 0);
 		return order;
 	}

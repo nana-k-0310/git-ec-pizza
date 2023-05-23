@@ -49,7 +49,6 @@ public class OrderService {
 		
 		try {
 			final String yyyyMMddhh = form.getDeliveryDate() + "-" + form.getDeliveryTime();
-			System.out.println("yyyyMMddhh:" + yyyyMMddhh);
 			Date deliveryTime = new SimpleDateFormat("yyyy-MM-dd-hh").parse(yyyyMMddhh);
 			Timestamp deliveryDateTimestamp = new Timestamp(deliveryTime.getTime());
 			order.setDeliveryTime(deliveryDateTimestamp);
