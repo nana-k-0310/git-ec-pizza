@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.UserInfo;
+import com.example.form.LoginLogoutUserForm;
 import com.example.form.RegisterUserForm;
 import com.example.service.RegisterUserService;
 
@@ -47,7 +48,7 @@ public class RegisterUserController {
 	 * 
 	 */
 	@PostMapping("/registerUser")
-	public String registerUser(@Validated RegisterUserForm form, BindingResult result, Model model) {
+	public String registerUser(@Validated RegisterUserForm form, BindingResult result, LoginLogoutUserForm loginForm, Model model) {
 		// ** パスワード確認 *//
 		if (!form.getConfirmationPassword().equals(form.getPassword()) || form.getConfirmationPassword().equals("")) {
 			if (form.getConfirmationPassword().equals("")) {
@@ -79,7 +80,21 @@ public class RegisterUserController {
 		user.setTelephone(form.getTelephone());
 		model.addAttribute(user);
 		service.registerUser(user);
+		
+		return goLogin(loginForm);
+	}
+	
+	/**
+	 * ユーザー情報がない場合、ログイン画面に遷移する.
+	 * 
+	 * @param userForm ユーザーフォーム
+	 * @return　ログイン画面
+	 */
+	@GetMapping("/goLogin")
+	public String goLogin(LoginLogoutUserForm loginForm) {
 		return "materialize-version/login";
 	}
+	
+	
 
 }

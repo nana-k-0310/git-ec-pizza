@@ -164,7 +164,9 @@ public class ShoppingCartController {
 		
 		model.addAttribute("order", order);
 		
+		System.out.println("ここまで出ていればok");
 		
+		System.out.println("詳しいorderは" + order);
 		
 		return "materialize-version/cart_list";
 	}

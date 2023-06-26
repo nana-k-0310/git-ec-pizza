@@ -82,14 +82,13 @@ public class OrderController {
 		if(form.getDestinationEmail().equals("")) {
 			result.rejectValue("destinationEmail", "", "メールアドレスを入力して下さい");
 		}
-		
-		if(form.getDeliveryDate() == null) {
-			result.rejectValue("deliveryDate", null, "配達日を入力して下さい");
-		}
+
+		//必要な場合↓のコメント外す.
+//		if(form.getDeliveryDate() == null) {
+//			result.rejectValue("deliveryDate", null, "配達日を入力して下さい");
+//		}
 		
 		if(result.hasErrors()) {
-			System.out.println("エラー時" + form.getIntId());
-			
 			return orderConfirm(form, model);
 		}
 		
@@ -100,7 +99,9 @@ public class OrderController {
 		
 		try {
 			final String yyyyMMddhh = form.getDeliveryDate() + "-" + form.getDeliveryTime();
+			
 			Date deliveryTime = (Date) new SimpleDateFormat("yyyy-MM-dd-hh").parse(yyyyMMddhh);
+			
 			Timestamp deliveryDateTimestamp = new Timestamp(deliveryTime.getTime());
 			
 			if(deliveryDateTimestamp.before(after3TimeStamp)) {
@@ -117,8 +118,8 @@ public class OrderController {
 		} 
 		
 		Order order = orderService.order(form);
-		System.out.println(order + "注文完了");
 		
+		System.out.println(order + "注文完了");
 		
 		return "/materialize-version/order_finished";
 	}

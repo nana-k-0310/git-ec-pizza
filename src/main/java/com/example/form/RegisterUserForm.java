@@ -29,7 +29,6 @@ public class RegisterUserForm {
 	@Size(min=8, max=16, message="パスワードは8文字以上16文字以内で記載してください")
 	private String password;
 	/** 確認用パスワード */
-	@NotBlank(message="確認用パスワードは必須です")
 	private String confirmationPassword;
 	/** 郵便番号 */
 	@NotBlank(message="郵便番号は必須です")

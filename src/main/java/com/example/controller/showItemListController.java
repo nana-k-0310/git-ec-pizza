@@ -40,6 +40,7 @@ public class showItemListController {
 	 */
 	@GetMapping("/findByName")
 	public String findByName(String name, String order, Model model) {
+		
 		if(name.equals("")) {
 			model.addAttribute("result", "検索結果が0件の為、全件検索します");
 			return showItemList(order, model);

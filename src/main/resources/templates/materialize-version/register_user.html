@@ -62,16 +62,35 @@
     <div class="top-wrapper">
       <div class="container">
         <div class="row register-page">
-        <form th:action="@{/register/registerUser}" th:object="${registerUserForm}" method="post" >
-          <span class="error" th:errors="*{lastName}">名前を入力して下さい</span>
-          <span class="error" th:errors="*{firstName}">名前を入力して下さい</span>
+        <form
+         th:action="@{/register/registerUser}" 
+         th:object="${registerUserForm}" 
+         method="post" 
+         >
+          <span class="error" th:errors="*{lastName}"
+          >名前を入力して下さい</span>
+          <span class="error" th:errors="*{firstName}"
+          >名前を入力して下さい</span
+          ><br>
           <div class="row">
             <div class="input-field col s6">
-              <input name="lastName" th:field="*{lastName}" id="last_name" type="text" class="validate" />
+              <input
+               name="lastName" 
+               th:field="*{lastName}" 
+               id="last_name" 
+               type="text"
+                class="validate"
+                 />
               <label for="last_name">姓</label>
             </div>
             <div class="input-field col s6">
-              <input name="firstName" th:field="*{firstName}" id="first_name" type="text" class="validate" />
+              <input
+               name="firstName" 
+               th:field="*{firstName}"
+                id="first_name"
+                 type="text" 
+                 class="validate" 
+                 />
               <label for="first_name">名</label>
             </div>
           </div>
@@ -104,7 +123,10 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input name="telephone" th:field="*{telephone}" id="tel" type="tel" />
+              <input name="telephone" 
+              th:field="*{telephone}" 
+              id="tel" 
+              type="tel" />
               <label for="tel">電話番号</label>
             </div>
           </div>

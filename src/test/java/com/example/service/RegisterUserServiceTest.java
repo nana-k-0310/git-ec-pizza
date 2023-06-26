@@ -55,6 +55,7 @@ class RegisterUserServiceTest {
 
 	//ユーザーが登録されているか確認
 	@Test
+	@DisplayName("メールアドレスからユーザー情報を取得")
 	void ユーザー情報取得テスト() throws Exception{
 		UserInfo user1 = registerUserService.findByEmail("kono@sample.co.jp");
 		assertEquals("河野夏菜", user1.getName(), "名前が登録されていません");
@@ -63,6 +64,13 @@ class RegisterUserServiceTest {
 		assertEquals("123-4567", user1.getZipcode(), "郵便番号が登録されていません");
 		assertEquals("東京都渋谷区１−１−１", user1.getAddress(), "住所が登録されていません");
 		assertEquals("03-1234-5678", user1.getTelephone(), "電話番号が登録されていません");
+	}
+	
+	@Test
+	@DisplayName("DBなしのメールアドレスからユーザー情報取得")
+	void ユーザー情報メール登録null確認テスト() throws Exception {
+		UserInfo user2 = registerUserService.findByEmail("konoNull@gmail.com");
+		assertEquals(null, user2, "DBなしのメールアドレスからnull確認失敗");
 	}
 
 	//ユーザー情報を削除する

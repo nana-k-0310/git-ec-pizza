@@ -48,8 +48,11 @@ public class OrderService {
 		order.setPaymentMethod(form.getPaymentMethod());
 		
 		try {
+			
 			final String yyyyMMddhh = form.getDeliveryDate() + "-" + form.getDeliveryTime();
+			
 			Date deliveryTime = new SimpleDateFormat("yyyy-MM-dd-hh").parse(yyyyMMddhh);
+			
 			Timestamp deliveryDateTimestamp = new Timestamp(deliveryTime.getTime());
 			order.setDeliveryTime(deliveryDateTimestamp);
 		} catch(Exception e) {

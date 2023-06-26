@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -166,12 +167,19 @@ public class OrderRepository {
 	 */
 	
 	public Order update(Order order) {
+		try {
 		String updateSql = "UPDATE orders SET status =:status, total_price=:totalPrice, order_date=:orderDate, destination_name=:destinationName, destination_email=:destinationEmail, destination_zipcode=:destinationZipcode, destination_address=:destinationAddress, destination_tel=:destinationTel, delivery_time=:deliveryTime, payment_method=:paymentMethod WHERE user_id=:userId and id = :id;";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
 		template.update(updateSql, param);
 		return order;
+	} catch (EmptyResultDataAccessException e) {
+		 System.out.println("例外が発生しました。");
+         System.out.println(e);
+ 
+         return null;
 	}
 	
+	}
 	
 	/**
 	 * 注文情報を検索します.（IDから検索)

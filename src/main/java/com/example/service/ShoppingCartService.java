@@ -42,6 +42,10 @@ public class ShoppingCartService {
 	 * @param userId　ユーザーID
 	 */
 	public void insertCart(ShoppingCartForm form, Integer userId) {
+		
+		System.out.println("引数のformは" + form);
+		System.out.println("引数のuserIdは" + userId);
+		
 		Order order = orderRepository.findByUserIdAndStatus(userId, 0);
 		
 		Order orderObject = new Order();
@@ -63,6 +67,9 @@ public class ShoppingCartService {
 			
 			OrderItem orderItemInfo = orderItemRepository.insert(orderItem);
 			
+			System.out.println("ここでのorderItemのitemは" + orderItem.getItem());
+			System.out.println("ここのOrderのOrderItemListは" + insertOrder.getOrderItemList());
+			
 			//注文トッピングインサート、nullの時はインサートなし
 			OrderTopping orderTopping = new OrderTopping();
 			
@@ -83,6 +90,8 @@ public class ShoppingCartService {
 		BeanUtils.copyProperties(form, orderItem);
 		
 		orderItem.setOrderId(order.getId());
+
+		System.out.println("インサートするオーダー商品は" + orderItem);
 		
 		OrderItem orderItemInfo = orderItemRepository.insert(orderItem);
 		
@@ -109,6 +118,8 @@ public class ShoppingCartService {
 	 */
 	public Order showCart(Integer userId) {
 		Order order = orderRepository.findByUserIdAndStatus(userId, 0);
+		
+		System.out.println("詳しいorder2は" + order);
 		//注文テーブルにインサートなしでカートの中身をみた時
 		Order orderObject = new Order();
 		if(Objects.isNull(order)) {

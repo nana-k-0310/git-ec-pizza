@@ -3,6 +3,7 @@ package com.example.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -100,12 +101,18 @@ public class OrderItemRepository {
 	/** 同じ商品の場合個数を更新する*/
 	
 	public void updateCount(Integer newQuantity, Integer id) {
+		try {
 		String updateSql = "UPDATE order_items SET quantity = :quantity WHERE id = :id";
 		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("quantity", newQuantity).addValue("id", id);
 		
 		template.update(updateSql, param);
 		
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("例外が発生しました。");
+	        System.out.println(e);
+	 
+		}
 	}
 	
 	/**
@@ -114,9 +121,14 @@ public class OrderItemRepository {
 	 * @param id　注文商品id
 	 */
 	public void deleteByOrderId(Integer orderItemId) {
+		try {
 		String deleteSql = "DELETE FROm order_items WHERE id=:id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", orderItemId);
 		template.update(deleteSql, param);
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("例外が発生しました。");
+	        System.out.println(e);
+		}
 	}
 	
 	/**
@@ -125,9 +137,14 @@ public class OrderItemRepository {
 	 * @param id 注文商品id
 	 */
 	public void allDeleteOrderItem(Integer orderItemOrderId){
+		try {
 		String allDeleteSql = "DELETE FROM order_items WHERE order_id=:orderId;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("orderId", orderItemOrderId);
 		template.update(allDeleteSql, param);
+		} catch(EmptyResultDataAccessException e) {
+			System.out.println("例外が発生しました。");
+	        System.out.println(e);
+		}
 	}
 	
 	

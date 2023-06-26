@@ -3,6 +3,7 @@ package com.example.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -46,10 +47,19 @@ public class ItemRepository {
 	 * @return 商品情報
 	 */
 	public Item load(Integer id) {
+		try {
 		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items WHERE id = :id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
 		return item;
+		
+		} catch (EmptyResultDataAccessException e) {
+			 System.out.println("例外が発生しました。");
+	         System.out.println(e);
+	 
+	         return null;
+		}
+		
 	}
 	
 	/** OrderItemのitemIdからitem取得/
@@ -60,8 +70,13 @@ public class ItemRepository {
 		
 		System.out.println("itemIDは" + itemId);
 		
-		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items WHERE id = id;";
+		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items WHERE id = :id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", itemId);
+
+//問題なければ↓削除		
+//		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items WHERE id = :item_id;";
+//		SqlParameterSource param = new MapSqlParameterSource().addValue("item_id", itemId);
+		
 		
 		//これ↓
 		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
@@ -98,21 +113,25 @@ public class ItemRepository {
 	 * @return	　　　検索された商品情報
 	 */
 	public List<Item> findByName(String name, String order){
-		if("high".equals(order)) {
-			String sql = "SELECT id,name,description,price_m,price_l,image_path, deleted FROM items WHERE name ilike :name ORDER BY price_m DESC, id;";
-			SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
-			List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
-			return itemList;
-		} else if("low".equals(order)) {
-			String sql = "SELECT id,name,description,price_m,price_l,image_path, deleted FROM items WHERE name ilike :name ORDER BY price_m, id;";
-			SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
-			List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
-			return itemList;
-		} else {
-		String sql = "SELECT id, name, description, price_m, price_l, image_path, deleted FROM items WHERE name ilike :name ORDER BY id;";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
-		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
-		return itemList;
-		}
+		
+		
+			if("high".equals(order)) {
+				String sql = "SELECT id,name,description,price_m,price_l,image_path, deleted FROM items WHERE name ilike :name ORDER BY price_m DESC, id;";
+				SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
+				List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
+				return itemList;
+			} else if("low".equals(order)) {
+				String sql = "SELECT id,name,description,price_m,price_l,image_path, deleted FROM items WHERE name ilike :name ORDER BY price_m, id;";
+				SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
+				List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
+				return itemList;
+			} else {
+				String sql = "SELECT id, name, description, price_m, price_l, image_path, deleted FROM items WHERE name ilike :name ORDER BY id;";
+				SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
+				List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
+				return itemList;
+			}
+		
+		
 	}
 }

@@ -51,6 +51,10 @@ public class ShowItemDetailService {
 	 */
 	public Item showItemDetail(Integer id) {
 		Item item = itemRepository.load(id);
+		
+		if(item == null) {
+			return null;
+		}
 		item.setToppingList(toppingRepository.findAll());
 		return item;
 	}
@@ -66,10 +70,18 @@ public class ShowItemDetailService {
 		return nowOrderStatus;
 	}
 	
-	
-	/** オーダーIDから商品リストを渡す */
+	/**
+	 * オーダーIDから商品リストを渡す.
+	 * 
+	 * @param orderId オーダーID
+	 * @return　オーダー商品リスト
+	 */
 	public List<OrderItem> itemListByOrderId(Integer orderId) {
 		List<OrderItem> orderItemList = orderItemRepository.sameOrderLoad(orderId);
+		
+		if(orderItemList == null) {
+			return null;
+		}
 		for(OrderItem orderItem : orderItemList) {
 			
 				Item item = itemRepository.load(orderItem.getItemId());
@@ -94,7 +106,12 @@ public class ShowItemDetailService {
 	}
 	
 	
-	/**　注文商品の個数を更新する */
+	/**
+	 * 注文商品の個数を更新する.
+	 * 
+	 * @param newQuantity 更新した商品数
+	 * @param id　orderItemのID
+	 */
 	public void updateCount(Integer newQuantity, Integer id) {
 		orderItemRepository.updateCount(newQuantity, id);
 	}
